@@ -16,6 +16,7 @@
       background: #121212;
       color: #FFFFFF;
       line-height: 1.6;
+      overflow-x: hidden;
     }
     a {
       color: #00FFC8;
@@ -303,68 +304,116 @@
       background: #00E5B9;
     }
 
-    /* Footer */
-    footer {
-      background: #1E1E1E;
-      color: #B0B0B0;
-      font-size: 0.9rem;
-      margin-top: 50px;
-      padding: 40px 20px 20px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
+    /* Mobile Buttons Container */
+    #mobile-buttons {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 30, 30, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 8px 12px;
+      border-radius: 30px;
+      z-index: 2000;
+      gap: 12px;
     }
-    footer .footer-left,
-    footer .footer-right {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    footer .footer-left {
+    #mobile-buttons button {
+      background: #00FFC8;
+      border: none;
+      color: #121212;
+      padding: 10px 16px;
       font-weight: 700;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s ease;
+      min-width: 90px;
+    }
+    #mobile-buttons button:hover {
+      background: #00E5B9;
+    }
+
+    /* Overlay modal for showing content */
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(6px);
+      z-index: 3000;
+      overflow-y: auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    #overlay .content-box {
+      max-width: 600px;
+      background: #1E1E1E;
+      margin: 60px auto;
+      border-radius: 20px;
+      padding: 25px 35px;
+      color: #FFFFFF;
+      position: relative;
+      box-shadow: 0 5px 20px rgba(0,255,200,0.6);
+    }
+    #overlay .content-box h3 {
       color: #00FFC8;
-      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      text-align: center;
     }
-    footer .footer-right a {
+    #overlay .content-box p, #overlay .content-box ul, #overlay .content-box li {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #ccc;
+    }
+    #overlay .content-box ul {
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+    #overlay .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
       color: #00FFC8;
-      font-weight: 600;
-      text-decoration: none;
-      margin: 0 10px;
+      cursor: pointer;
+      font-weight: 900;
+      transition: color 0.3s ease;
     }
-    footer .footer-right a:hover {
-      color: #00CC9A;
-      text-decoration: underline;
+    #overlay .close-btn:hover {
+      color: #00E5B9;
     }
-    footer .quick-links {
-      display: flex;
-      gap: 20px;
-    }
+
+    /* Hide mobile buttons on desktop */
     @media (max-width: 768px) {
-      .hero {
-        padding-left: 20px;
+      nav ul {
+        display: none;
       }
+      #mobile-buttons {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 480px) {
       .hero h2 {
-        font-size: 2.2rem;
+        font-size: 2rem;
       }
       .hero p {
         font-size: 1.1rem;
       }
-      nav ul {
-        gap: 15px;
+      #mobile-buttons button {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        min-width: 75px;
       }
-      #contact .container {
-        flex-direction: column;
-      }
-      footer {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-      }
-      footer .footer-left,
-      footer .footer-right {
-        justify-content: center;
+      #overlay .content-box {
+        margin: 40px 15px;
+        padding: 20px 25px;
       }
     }
   </style>
@@ -471,20 +520,92 @@
     </div>
   </section>
 
-  <footer>
-    <div class="footer-left">IGX Media - Real Results, Not Random Clicks.</div>
-    <div class="footer-right">
-      <div class="quick-links">
-        <a href="#services">Home</a>
-        <a href="#services">Services</a>
-        <a href="#process">Process</a>
-        <a href="#testimonials">Testimonials</a>
-        <a href="#contact">Contact</a>
-        <a href="https://calendly.com/samuelatnafu88" target="_blank" rel="noopener">Get Started</a>
-        <a href="https://calendly.com/samuelatnafu88" target="_blank" rel="noopener">Book Free Call</a>
-      </div>
-      <div>&copy; 2024 IGX Media. All rights reserved.</div>
+  <!-- Mobile buttons -->
+  <div id="mobile-buttons" aria-label="Mobile Navigation Buttons">
+    <button data-section="services">Services</button>
+    <button data-section="process">Process</button>
+    <button data-section="testimonials">Testimonials</button>
+  </div>
+
+  <!-- Overlay modal -->
+  <div id="overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="content-box">
+      <button class="close-btn" aria-label="Close Overlay">&times;</button>
+      <div id="overlay-content"></div>
     </div>
-  </footer>
+  </div>
+
+  <script>
+    // Get elements
+    const buttons = document.querySelectorAll('#mobile-buttons button');
+    const overlay = document.getElementById('overlay');
+    const overlayContent = document.getElementById('overlay-content');
+    const closeBtn = document.querySelector('.close-btn');
+
+    // Content for each section (you can customize)
+    const sectionsContent = {
+      services: `
+        <h3>Our Services</h3>
+        <p>Optimized Facebook & Instagram ad campaigns that drive leads and increase conversions.</p>
+        <ul>
+          <li><strong>Meta Ads Management:</strong> Tailored ads targeting your ideal audience.</li>
+          <li><strong>Lead Generation:</strong> High-quality leads ready to convert.</li>
+          <li><strong>Campaign Strategy:</strong> Data-driven approach for best ROI.</li>
+        </ul>
+      `,
+      process: `
+        <h3>Our Process</h3>
+        <ul>
+          <li>1. Free Discovery Call to Understand Your Needs</li>
+          <li>2. Custom Strategy Development & Proposal</li>
+          <li>3. Campaign Setup and Launch</li>
+          <li>4. Continuous Optimization & Reporting</li>
+          <li>5. Scale Your Ads & Grow Your Business</li>
+        </ul>
+      `,
+      testimonials: `
+        <h3>What Our Clients Say</h3>
+        <p>“IGX Media took our real estate ads to the next level. Leads increased by 200% in just 3 months!” — Sarah K., Realtor</p>
+        <p>“The team is responsive, knowledgeable, and results-driven. Highly recommend for local business marketing.” — Mike D., Local Business Owner</p>
+      `
+    };
+
+    // Show overlay with selected content
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const section = btn.getAttribute('data-section');
+        overlayContent.innerHTML = sectionsContent[section];
+        overlay.style.display = 'block';
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden'; // prevent background scroll
+      });
+    });
+
+    // Close overlay
+    closeBtn.addEventListener('click', () => {
+      overlay.style.display = 'none';
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = 'auto';
+    });
+
+    // Close overlay on outside click
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.style.display = 'none';
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = 'auto';
+      }
+    });
+
+    // Optional: close overlay on Escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === "Escape" && overlay.style.display === 'block') {
+        overlay.style.display = 'none';
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = 'auto';
+      }
+    });
+  </script>
 </body>
 </html>
+<script src="//code.tidio.co/t4v9bmdhe0tdff3vw8gsq11dcmx3nniq.js" async></script>
