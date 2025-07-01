@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IGX Media | Elite Social Media Marketing Agency</title>
+  <style>
+    /* Reset and base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
+      color: #FFFFFF;
+      line-height: 1.6;
+    }
+    a {
+      color: #00FFC8;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #00CC9A;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      padding: 15px 0;
+    }
+    header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 {
+      font-size: 24px;
+      color: #00FFC8;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+    nav ul li a {
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+    nav ul li a:hover {
+      color: #00CC9A;
+    }
+
+    /* Hero */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      padding-top: 100px;
+      background:
+        linear-gradient(
+          rgba(18, 18, 18, 0.7),
+          rgba(18, 18, 18, 0.7)
+        ),
+        url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+      color: #00FFC8;
+      padding-left: 40px;
+    }
+    .hero h2 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      font-weight: 900;
+      max-width: 600px;
+      line-height: 1.1;
+    }
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 40px;
+      max-width: 600px;
+      color: #B0B0B0;
+    }
+    .hero .btn-primary {
+      background: #00FFC8;
+      color: #121212;
+      padding: 18px 40px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 255, 200, 0.6);
+    }
+    .hero .btn-primary:hover {
+      background: #00E5B9;
+      box-shadow: 0 8px 20px rgba(0, 230, 185, 0.8);
+    }
+
+    /* Sections */
+    section {
+      padding: 80px 0;
+    }
+    h3.section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 50px;
+      color: #00FFC8;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+    }
+
+    /* Services */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .service-card {
+      background: #1E1E1E;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 255, 200, 0.2);
+      transition: transform 0.3s ease;
+      color: #FFFFFF;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(0, 255, 200, 0.5);
+    }
+    .service-card h4 {
+      margin-bottom: 15px;
+      color: #00FFC8;
+    }
+    .service-card p {
+      font-size: 1rem;
+      color: #B0B0B0;
+    }
+
+    /* Process */
+    .process-steps {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      color: #FFFFFF;
+    }
+    .process-step {
+      background: #1E1E1E;
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 255, 200, 0.2);
+      font-weight: 600;
+    }
+    .process-step span {
+      color: #00FFC8;
+      font-weight: 900;
+      margin-right: 15px;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      color: #FFFFFF;
+    }
+    .testimonial {
+      background: #1E1E1E;
+      padding: 30px 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 255, 200, 0.2);
+      font-style: italic;
+      position: relative;
+    }
+    .testimonial::before {
+      content: "“";
+      font-size: 4rem;
+      color: #00FFC8;
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      font-weight: 900;
+      opacity: 0.3;
+    }
+    .testimonial p {
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+    .testimonial .author {
+      font-weight: 700;
+      text-align: right;
+      color: #00FFC8;
+    }
+
+    /* Contact Section Flex */
+    #contact .container {
+      display: flex;
+      gap: 60px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    /* Contact Info (Left) */
+    .contact-info {
+      flex: 1;
+      min-width: 280px;
+      color: #FFFFFF;
+      max-width: 400px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    .contact-info h4 {
+      color: #00FFC8;
+      margin-bottom: 15px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+    }
+    .contact-info p {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .contact-info p a {
+      color: #00FFC8;
+      font-weight: 600;
+    }
+    .contact-info p svg {
+      fill: #00FFC8;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+    /* Contact Form (Right) */
+    .contact-form {
+      flex: 1;
+      min-width: 300px;
+      max-width: 550px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      background: #1E1E1E;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,255,200,0.2);
+    }
+    .contact-form label {
+      font-weight: 700;
+      color: #00FFC8;
+    }
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea {
+      padding: 15px 20px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+      font-family: inherit;
+      background: #222;
+      color: #fff;
+      resize: vertical;
+    }
+    .contact-form input:focus,
+    .contact-form select:focus,
+    .contact-form textarea:focus {
+      outline: 2px solid #00FFC8;
+    }
+    .contact-form button {
+      background: #00FFC8;
+      color: #121212;
+      padding: 18px;
+      font-weight: 700;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-size: 1.1rem;
+    }
+    .contact-form button:hover {
+      background: #00E5B9;
+    }
+
+    /* Footer */
+    footer {
+      background: #1E1E1E;
+      color: #B0B0B0;
+      font-size: 0.9rem;
+      margin-top: 50px;
+      padding: 40px 20px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer .footer-left,
+    footer .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    footer .footer-left {
+      font-weight: 700;
+      color: #00FFC8;
+      font-size: 1.2rem;
+    }
+    footer .footer-right a {
+      color: #00FFC8;
+      font-weight: 600;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    footer .footer-right a:hover {
+      color: #00CC9A;
+      text-decoration: underline;
+    }
+    footer .quick-links {
+      display: flex;
+      gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .hero {
+        padding-left: 20px;
+      }
+      .hero h2 {
+        font-size: 2.2rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+      nav ul {
+        gap: 15px;
+      }
+      #contact .container {
+        flex-direction: column;
+      }
+      footer {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      footer .footer-left,
+      footer .footer-right {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>IGX Media</h1>
+      <nav>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="https://calendly.com/samuelatnafu88" target="_blank" rel="noopener" style="color:#00FFC8; font-weight:700;">Book Free Call</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h2>Fuel Your Business Growth with Ads That Deliver Real Results</h2>
+      <p>Expert Meta Ads Management & Social Media Marketing Tailored for Real Estate & Local Businesses.</p>
+      <button class="btn-primary" onclick="window.open('https://calendly.com/samuelatnafu88', '_blank')">Book Your Free Strategy Call</button>
+    </div>
+  </section>
+
+  <section id="services">
+    <h3 class="section-title">Our Services</h3>
+    <div class="services container">
+      <div class="service-card">
+        <h4>Meta Ads Management</h4>
+        <p>Optimized Facebook & Instagram ad campaigns that drive leads and increase conversions.</p>
+      </div>
+      <div class="service-card">
+        <h4>Lead Generation</h4>
+        <p>Targeted strategies to attract high-quality leads ready to convert into clients.</p>
+      </div>
+      <div class="service-card">
+        <h4>Campaign Strategy</h4>
+        <p>Customized ad strategies tailored to your business goals and audience insights.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <h3 class="section-title">Our Process</h3>
+    <div class="process-steps container">
+      <div class="process-step"><span>1.</span> Free Discovery Call to Understand Your Needs</div>
+      <div class="process-step"><span>2.</span> Custom Strategy Development & Proposal</div>
+      <div class="process-step"><span>3.</span> Campaign Setup and Launch</div>
+      <div class="process-step"><span>4.</span> Continuous Optimization & Reporting</div>
+      <div class="process-step"><span>5.</span> Scale Your Ads & Grow Your Business</div>
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <h3 class="section-title">What Our Clients Say</h3>
+    <div class="testimonials container">
+      <div class="testimonial">
+        <p>IGX Media took our real estate ads to the next level. Leads increased by 200% in just 3 months!</p>
+        <div class="author">— Sarah K., Realtor</div>
+      </div>
+      <div class="testimonial">
+        <p>The team is responsive, knowledgeable, and results-driven. Highly recommend for local business marketing.</p>
+        <div class="author">— Mike D., Local Business Owner</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h3 class="section-title">Get In Touch</h3>
+    <div class="container">
+      <div class="contact-info">
+        <h4>Contact Information</h4>
+        <p>📧 Email: <a href="mailto:igxmediaofficial@gmail.com">igxmediaofficial@gmail.com</a></p>
+        <p>📅 Schedule a Call: <a href="https://calendly.com/samuelatnafu88" target="_blank" rel="noopener">Book on Calendly</a></p>
+        <p>📱 Instagram: <a href="https://instagram.com/igx_mediaagency" target="_blank" rel="noopener">@igx_mediaagency</a></p>
+        <p>💼 LinkedIn: <a href="https://www.linkedin.com/company/igxmedia/?viewAsMember=true" target="_blank" rel="noopener">IGX Media Company</a></p>
+      </div>
+
+      <form class="contact-form" action="mailto:your-email@example.com" method="POST" enctype="text/plain">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Your Name" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="your.email@example.com" required />
+
+        <label for="business-type">Business Type</label>
+        <select id="business-type" name="business-type" required>
+          <option value="" disabled selected>Select your business type</option>
+          <option value="real-estate">Real Estate</option>
+          <option value="local-business">Local Business</option>
+          <option value="e-commerce">E-Commerce</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" placeholder="Tell us about your business and goals..." required></textarea>
+
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-left">IGX Media - Real Results, Not Random Clicks.</div>
+    <div class="footer-right">
+      <div class="quick-links">
+        <a href="#services">Home</a>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contact</a>
+        <a href="https://calendly.com/samuelatnafu88" target="_blank" rel="noopener">Get Started</a>
+        <a href="https://calendly.com/samuelatnafu88" target="_blank" rel="noopener">Book Free Call</a>
+      </div>
+      <div>&copy; 2024 IGX Media. All rights reserved.</div>
+    </div>
+  </footer>
+</body>
+</html>
