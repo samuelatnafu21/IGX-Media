@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://code.tidio.co;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: https:;
+    font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>IGX Media | Elite Social Media Marketing Agency</title>
   <style>
@@ -438,7 +444,7 @@
     <div class="container">
       <h2>Fuel Your Business Growth with Ads That Deliver Real Results</h2>
       <p>Expert Meta Ads Management & Social Media Marketing Tailored for Real Estate & Local Businesses.</p>
-      <button class="btn-primary" onclick="window.open('https://calendly.com/samuelatnafu88', '_blank')">Book Your Free Strategy Call</button>
+      <button class="btn-primary" id="bookCallBtn">Book Your Free Strategy Call</button>
     </div>
   </section>
 
@@ -508,104 +514,130 @@
           <option value="" disabled selected>Select your business type</option>
           <option value="real-estate">Real Estate</option>
           <option value="local-business">Local Business</option>
-          <option value="e-commerce">E-Commerce</option>
           <option value="other">Other</option>
         </select>
 
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="5" placeholder="Tell us about your business and goals..." required></textarea>
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
 
         <button type="submit">Send Message</button>
       </form>
     </div>
   </section>
 
-  <!-- Mobile buttons -->
-  <div id="mobile-buttons" aria-label="Mobile Navigation Buttons">
-    <button data-section="services">Services</button>
-    <button data-section="process">Process</button>
-    <button data-section="testimonials">Testimonials</button>
+  <!-- Mobile Buttons -->
+  <div id="mobile-buttons" role="navigation" aria-label="Mobile action buttons">
+    <button id="callBtn">Call</button>
+    <button id="whatsappBtn">WhatsApp</button>
+    <button id="bookCallBtnMobile">Book Call</button>
   </div>
 
-  <!-- Overlay modal -->
-  <div id="overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <!-- Overlay for Mobile Buttons -->
+  <div id="overlay" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="content-box">
-      <button class="close-btn" aria-label="Close Overlay">&times;</button>
-      <div id="overlay-content"></div>
+      <button class="close-btn" aria-label="Close overlay" id="closeOverlayBtn">×</button>
+      <div id="overlayContent"></div>
     </div>
   </div>
 
   <script>
-    // Get elements
-    const buttons = document.querySelectorAll('#mobile-buttons button');
-    const overlay = document.getElementById('overlay');
-    const overlayContent = document.getElementById('overlay-content');
-    const closeBtn = document.querySelector('.close-btn');
-
-    // Content for each section (you can customize)
-    const sectionsContent = {
-      services: `
-        <h3>Our Services</h3>
-        <p>Optimized Facebook & Instagram ad campaigns that drive leads and increase conversions.</p>
-        <ul>
-          <li><strong>Meta Ads Management:</strong> Tailored ads targeting your ideal audience.</li>
-          <li><strong>Lead Generation:</strong> High-quality leads ready to convert.</li>
-          <li><strong>Campaign Strategy:</strong> Data-driven approach for best ROI.</li>
-        </ul>
-      `,
-      process: `
-        <h3>Our Process</h3>
-        <ul>
-          <li>1. Free Discovery Call to Understand Your Needs</li>
-          <li>2. Custom Strategy Development & Proposal</li>
-          <li>3. Campaign Setup and Launch</li>
-          <li>4. Continuous Optimization & Reporting</li>
-          <li>5. Scale Your Ads & Grow Your Business</li>
-        </ul>
-      `,
-      testimonials: `
-        <h3>What Our Clients Say</h3>
-        <p>“IGX Media took our real estate ads to the next level. Leads increased by 200% in just 3 months!” — Sarah K., Realtor</p>
-        <p>“The team is responsive, knowledgeable, and results-driven. Highly recommend for local business marketing.” — Mike D., Local Business Owner</p>
-      `
-    };
-
-    // Show overlay with selected content
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const section = btn.getAttribute('data-section');
-        overlayContent.innerHTML = sectionsContent[section];
-        overlay.style.display = 'block';
-        overlay.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden'; // prevent background scroll
-      });
+    // Open Calendly call on desktop button
+    document.getElementById('bookCallBtn').addEventListener('click', () => {
+      window.open('https://calendly.com/samuelatnafu88', '_blank', 'noopener');
     });
 
-    // Close overlay
-    closeBtn.addEventListener('click', () => {
+    // Mobile Buttons
+    const callBtn = document.getElementById('callBtn');
+    const whatsappBtn = document.getElementById('whatsappBtn');
+    const bookCallBtnMobile = document.getElementById('bookCallBtnMobile');
+    const overlay = document.getElementById('overlay');
+    const overlayContent = document.getElementById('overlayContent');
+    const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+
+    callBtn.addEventListener('click', () => {
+      overlayContent.innerHTML = `
+        <h3>Call Us</h3>
+        <p>Phone Number: <a href="tel:+251911245467">+251 911 245 467</a></p>
+        <p><small>We respond during business hours</small></p>
+      `;
+      openOverlay();
+    });
+
+    whatsappBtn.addEventListener('click', () => {
+      overlayContent.innerHTML = `
+        <h3>Chat on WhatsApp</h3>
+        <p><a href="https://wa.me/251911245467" target="_blank" rel="noopener">Start WhatsApp Chat</a></p>
+      `;
+      openOverlay();
+    });
+
+    bookCallBtnMobile.addEventListener('click', () => {
+      window.open('https://calendly.com/samuelatnafu88', '_blank', 'noopener');
+    });
+
+    closeOverlayBtn.addEventListener('click', closeOverlay);
+
+    function openOverlay() {
+      overlay.style.display = 'block';
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+    function closeOverlay() {
       overlay.style.display = 'none';
       overlay.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = 'auto';
-    });
+      overlayContent.innerHTML = '';
+    }
 
-    // Close overlay on outside click
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
-        overlay.style.display = 'none';
-        overlay.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = 'auto';
-      }
-    });
-
-    // Optional: close overlay on Escape key
-    document.addEventListener('keydown', e => {
-      if (e.key === "Escape" && overlay.style.display === 'block') {
-        overlay.style.display = 'none';
-        overlay.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = 'auto';
+    // Close overlay on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.style.display === 'block') {
+        closeOverlay();
       }
     });
   </script>
+
+  <!-- Tidio chat widget -->
+  <script src="https://code.tidio.co/t4v9bmdhe0tdff3vw8gsq11dcmx3nniq.js" async></script>
 </body>
 </html>
-<script src="//code.tidio.co/t4v9bmdhe0tdff3vw8gsq11dcmx3nniq.js" async></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://code.tidio.co;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: https:;
+    font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IGX Media | Elite Social Media Marketing Agency</title>
+
+  <!-- ✅ SEO Meta Tags -->
+  <meta name="description" content="IGX Media helps real estate agents grow through expert Facebook & Instagram ad campaigns. Book your free strategy call now.">
+  <meta name="keywords" content="real estate marketing, social media agency, IGX Media, Facebook ads for realtors, lead generation, real estate ads">
+  <meta name="author" content="IGX Media">
+
+  <!-- ✅ Social Sharing (Open Graph + Twitter Card) -->
+  <meta property="og:title" content="IGX Media | Elite Social Media Marketing Agency">
+  <meta property="og:description" content="Grow your real estate or local business with expert ad campaigns from IGX Media. Book your free call now!">
+  <meta property="og:url" content="https://samuelatnafu21.github.io/IGX-Media/">
+  <meta property="og:image" content="https://samuelatnafu21.github.io/IGX-Media/images/cover.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="IGX Media | Elite Social Media Marketing Agency">
+  <meta name="twitter:description" content="We help real estate agents grow through expert Meta ads and lead generation.">
+  <meta name="twitter:image" content="https://samuelatnafu21.github.io/IGX-Media/images/cover.jpg">
+
+  <!-- ✅ Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!-- ✅ Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- ✅ Style (Your Original CSS Below This Line) -->
+  <style>
+    /* your entire CSS remains unchanged — already included in your message */
+  </style>
+</head>
